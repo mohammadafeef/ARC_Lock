@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "secrets.h"
+
 #include <ESP8266WiFi.h>
 
 #include <FirebaseESP8266.h>
@@ -14,10 +16,7 @@
 
 #include <NTPClient.h>
 
-// hidden code id : 1
-#define WIFI_SSID ""
-#define WIFI_PASSWORD ""
-#define DATABASE_URL ""
+
 
 FirebaseData fbdo;
 
@@ -199,9 +198,16 @@ void setup()
 	config.database_url = DATABASE_URL;
 
 	// hiden code id : 2
-	config.signer.tokens.legacy_token = "";
+	config.signer.tokens.legacy_token = FIREBASE_LEGACY_TOKEN;
 
 	Firebase.begin(&config, &auth);
+// 	if (Firebase.setString(fbdo, "connection_test", "ESP_OK")) {
+//     Serial.println("Firebase Write Success");
+// } else {
+//     Serial.print("Firebase Error: ");
+//     Serial.println(fbdo.errorReason());
+// }
+
 
 	Firebase.reconnectWiFi(true);
 
